@@ -1,0 +1,24 @@
+{
+  "name": "HOA System",
+  "short_name": "HOA System",
+  "description": "Homeowners association management system.",
+  "start_url": "/dashboard",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f8fafc",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "/apple-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

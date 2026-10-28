@@ -1,0 +1,311 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'leaflet/dist/leaflet.css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+
+  --background: oklch(0.982 0.005 95.2); /* Off-White / Cream */
+  --foreground: oklch(0.321 0.000 190.1); /* Charcoal / Dark Gray */
+  --card: oklch(1 0 0); /* Clean White */
+  --card-foreground: oklch(0.321 0.000 190.1);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.321 0.000 190.1);
+  --primary: oklch(0.523 0.096 264.7); /* Deep Slate Blue */
+  --primary-foreground: oklch(1 0 0); /* White */
+  --secondary: oklch(0.982 0.005 95.2); /* Off-White / Cream */
+  --secondary-foreground: oklch(0.321 0.000 190.1);
+  --muted: oklch(0.940 0.010 264.7); /* Light Slate-tinted Gray */
+  --muted-foreground: oklch(0.523 0.096 264.7); /* Deep Slate Blue */
+  --accent: oklch(0.864 0.159 94.5); /* Sun Gold */
+  --accent-foreground: oklch(0.321 0.000 190.1); /* Charcoal */
+  --destructive: oklch(0.577 0.22 27.325);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.900 0.010 264.7); /* Light Slate-tinted Border */
+  --input: oklch(0.900 0.010 264.7);
+  --ring: oklch(0.781 0.095 237.3); /* Soft Sky Blue focus ring */
+  --chart-1: oklch(0.523 0.096 264.7); /* Deep Slate Blue */
+  --chart-2: oklch(0.694 0.182 141.1); /* Grass Green */
+  --chart-3: oklch(0.781 0.095 237.3); /* Soft Sky Blue */
+  --chart-4: oklch(0.864 0.159 94.5); /* Sun Gold */
+  --chart-5: oklch(0.787 0.156 136.4); /* Grass Green Light */
+  --radius: 0.5rem;
+  --sidebar: oklch(0.300 0.060 264.7); /* Dark Deep Slate Blue */
+  --sidebar-foreground: oklch(0.982 0.005 95.2); /* Off-White / Cream */
+  --sidebar-primary: oklch(0.781 0.095 237.3); /* Soft Sky Blue */
+  --sidebar-primary-foreground: oklch(0.321 0.000 190.1); /* Charcoal */
+  --sidebar-accent: oklch(0.400 0.080 264.7); /* Mid Deep Slate Blue */
+  --sidebar-accent-foreground: oklch(0.982 0.005 95.2); /* Off-White */
+  --sidebar-border: oklch(0.380 0.070 264.7); /* Darker border */
+  --sidebar-ring: oklch(0.781 0.095 237.3);
+
+  --status-paid: oklch(0.694 0.182 141.1); /* Grass Green (#52B742) */
+  --status-paid-bg: oklch(0.970 0.015 141.1);
+  --status-paid-border: oklch(0.920 0.030 141.1);
+
+  --status-pending: oklch(0.864 0.159 94.5); /* Sun Gold (#F4D03F) */
+  --status-pending-bg: oklch(0.970 0.015 94.5);
+  --status-pending-border: oklch(0.920 0.030 94.5);
+
+  --status-overdue: oklch(0.53 0.22 26.0);
+  --status-overdue-bg: oklch(0.97 0.02 26.0);
+  --status-overdue-border: oklch(0.92 0.04 26.0);
+
+  --status-partial: oklch(0.781 0.095 237.3); /* Soft Sky Blue (#7BC1ED) */
+  --status-partial-bg: oklch(0.970 0.015 237.3);
+  --status-partial-border: oklch(0.920 0.030 237.3);
+
+  --status-inactive: oklch(0.45 0.0 0.0);
+  --status-inactive-bg: oklch(0.96 0.005 0.0);
+  --status-inactive-border: oklch(0.90 0.01 0.0);
+}
+
+.dark {
+  --background: oklch(0.220 0.020 264.7); /* Dark Slate Gray-Blue */
+  --foreground: oklch(0.982 0.005 95.2); /* Off-White */
+  --card: oklch(0.250 0.025 264.7); /* Lighter Dark Slate */
+  --card-foreground: oklch(0.982 0.005 95.2);
+  --popover: oklch(0.250 0.025 264.7);
+  --popover-foreground: oklch(0.982 0.005 95.2);
+  --primary: oklch(0.781 0.095 237.3); /* Soft Sky Blue */
+  --primary-foreground: oklch(0.220 0.020 264.7);
+  --secondary: oklch(0.280 0.025 264.7);
+  --secondary-foreground: oklch(0.982 0.005 95.2);
+  --muted: oklch(0.280 0.025 264.7);
+  --muted-foreground: oklch(0.781 0.070 237.3);
+  --accent: oklch(0.280 0.025 264.7);
+  --accent-foreground: oklch(0.982 0.005 95.2);
+  --destructive: oklch(0.396 0.141 25.723);
+  --destructive-foreground: oklch(0.637 0.237 25.331);
+  --border: oklch(0.300 0.025 264.7);
+  --input: oklch(0.300 0.025 264.7);
+  --ring: oklch(0.781 0.095 237.3);
+  --chart-1: oklch(0.781 0.095 237.3);
+  --chart-2: oklch(0.694 0.182 141.1);
+  --chart-3: oklch(0.523 0.096 264.7);
+  --chart-4: oklch(0.864 0.159 94.5);
+  --chart-5: oklch(0.787 0.156 136.4);
+  --sidebar: oklch(0.180 0.020 264.7);
+  --sidebar-foreground: oklch(0.982 0.005 95.2);
+  --sidebar-primary: oklch(0.781 0.095 237.3);
+  --sidebar-primary-foreground: oklch(0.180 0.020 264.7);
+  --sidebar-accent: oklch(0.250 0.025 264.7);
+  --sidebar-accent-foreground: oklch(0.982 0.005 95.2);
+  --sidebar-border: oklch(0.250 0.025 264.7);
+  --sidebar-ring: oklch(0.781 0.095 237.3);
+
+  --status-paid: oklch(0.75 0.12 141.1);
+  --status-paid-bg: oklch(0.18 0.03 141.1);
+  --status-paid-border: oklch(0.24 0.05 141.1);
+
+  --status-pending: oklch(0.75 0.12 94.5);
+  --status-pending-bg: oklch(0.18 0.03 94.5);
+  --status-pending-border: oklch(0.24 0.05 94.5);
+
+  --status-overdue: oklch(0.70 0.15 26.0);
+  --status-overdue-bg: oklch(0.18 0.03 26.0);
+  --status-overdue-border: oklch(0.24 0.05 26.0);
+
+  --status-partial: oklch(0.70 0.15 237.3);
+  --status-partial-bg: oklch(0.18 0.03 237.3);
+  --status-partial-border: oklch(0.24 0.05 237.3);
+
+  --status-inactive: oklch(0.65 0.0 0.0);
+  --status-inactive-bg: oklch(0.15 0.0 0.0);
+  --status-inactive-border: oklch(0.20 0.0 0.0);
+}
+
+@theme inline {
+  --font-sans: 'Geist', 'Geist Fallback';
+  --font-mono: 'Geist Mono', 'Geist Mono Fallback';
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --color-status-paid: var(--status-paid);
+  --color-status-paid-bg: var(--status-paid-bg);
+  --color-status-paid-border: var(--status-paid-border);
+
+  --color-status-pending: var(--status-pending);
+  --color-status-pending-bg: var(--status-pending-bg);
+  --color-status-pending-border: var(--status-pending-border);
+
+  --color-status-overdue: var(--status-overdue);
+  --color-status-overdue-bg: var(--status-overdue-bg);
+  --color-status-overdue-border: var(--status-overdue-border);
+
+  --color-status-partial: var(--status-partial);
+  --color-status-partial-bg: var(--status-partial-bg);
+  --color-status-partial-border: var(--status-partial-border);
+
+  --color-status-inactive: var(--status-inactive);
+  --color-status-inactive-bg: var(--status-inactive-bg);
+  --color-status-inactive-border: var(--status-inactive-border);
+
+  @keyframes pulse-subtle {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
+  --animate-pulse-subtle: pulse-subtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.shimmer {
+  background-color: var(--muted);
+  background-image: linear-gradient(90deg, transparent, oklch(from var(--muted-foreground) l c h / 0.05), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s linear infinite;
+}
+
+.introjs-overlay {
+  background-color: color-mix(in srgb, var(--sidebar) 50%, transparent) !important;
+}
+
+.introjs-tooltip {
+  background: var(--card) !important;
+  color: var(--card-foreground) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12) !important;
+  padding: 20px !important;
+  min-width: 300px !important;
+  max-width: 400px !important;
+  font-family: 'Geist', system-ui, sans-serif !important;
+}
+
+.introjs-tooltip-title {
+  color: var(--foreground) !important;
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  margin-bottom: 8px !important;
+}
+
+.introjs-tooltiptext {
+  color: var(--muted-foreground) !important;
+  font-size: 0.875rem !important;
+  line-height: 1.5 !important;
+}
+
+.introjs-tooltip-header {
+  padding-bottom: 8px !important;
+  border-bottom: 1px solid var(--border) !important;
+  margin-bottom: 12px !important;
+}
+
+.introjs-skipbutton {
+  color: var(--muted-foreground) !important;
+  font-size: 1.25rem !important;
+}
+
+.introjs-bullets {
+  padding-top: 8px !important;
+}
+
+.introjs-bullets ul li a {
+  background: var(--muted) !important;
+}
+
+.introjs-bullets ul li a.active {
+  background: var(--primary) !important;
+}
+
+.introjs-progress {
+  height: 4px !important;
+  background: var(--muted) !important;
+  border-radius: 2px !important;
+  margin: 12px 0 8px !important;
+}
+
+.introjs-progressbar {
+  background: var(--primary) !important;
+  border-radius: 2px !important;
+}
+
+.introjs-tooltipbuttons {
+  border-top: 1px solid var(--border) !important;
+  padding-top: 12px !important;
+  margin-top: 8px !important;
+  display: flex !important;
+  gap: 8px !important;
+  justify-content: flex-end !important;
+}
+
+.introjs-button {
+  border: 1px solid var(--border) !important;
+  background: var(--card) !important;
+  color: var(--foreground) !important;
+  font-size: 0.8125rem !important;
+  font-weight: 600 !important;
+  padding: 6px 14px !important;
+  border-radius: var(--radius-md) !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+  transition: background-color 0.15s, border-color 0.15s !important;
+}
+
+.introjs-button:hover {
+  background: var(--muted) !important;
+  border-color: var(--border) !important;
+  box-shadow: none !important;
+}
+
+.introjs-button.introjs-donebutton {
+  background: var(--primary) !important;
+  color: var(--primary-foreground) !important;
+  border-color: var(--primary) !important;
+}
+
+.introjs-button.introjs-donebutton:hover {
+  opacity: 0.9 !important;
+}

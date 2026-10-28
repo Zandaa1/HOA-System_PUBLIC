@@ -1,0 +1,65 @@
+-- Financial Reporting Views
+
+-- 1. Summary by Billing Period (Revenue vs Arrears)
+CREATE OR REPLACE VIEW financial_summary_by_period WITH (security_invoker = true) AS
+SELECT
+    bp.id AS billing_period_id,
+    bp.name AS billing_period_name,
+    bp.start_date,
+    SUM(COALESCE(i.total_amount, 0)) AS total_billed,
+    SUM(COALESCE(i.amount_paid, 0)) AS total_paid,
+    SUM(COALESCE(i.balance, 0)) AS total_arrears,
+    COUNT(i.id) AS total_invoices,
+    COUNT(i.id) FILTER (WHERE i.status = 'paid') AS paid_invoices
+FROM
+    billing_periods bp
+LEFT JOIN
+    invoices i ON i.billing_period_id = bp.id AND i.status != 'cancelled'
+GROUP BY
+    bp.id, bp.name, bp.start_date
+ORDER BY
+    bp.start_date DESC;
+
+-- 2. Revenue Breakdown by Fee Type
+CREATE OR REPLACE VIEW revenue_by_fee_type WITH (security_invoker = true) AS
+SELECT
+    ft.id AS fee_type_id,
+    ft.name AS fee_type_name,
+    SUM(COALESCE(ii.amount, 0)) AS total_billed
+FROM
+    fee_types ft
+JOIN
+    invoice_items ii ON ii.fee_type_id = ft.id
+JOIN
+    invoices i ON i.id = ii.invoice_id
+WHERE
+    i.status != 'cancelled'
+GROUP BY
+    ft.id, ft.name
+ORDER BY
+    total_billed DESC;
+
+-- 3. Arrears by Property (Optional but helpful)
+CREATE OR REPLACE VIEW property_arrears_summary WITH (security_invoker = true) AS
+SELECT
+    p.id AS property_id,
+    p.block,
+    p.lot,
+    SUM(i.balance) AS total_unpaid_balance,
+    COUNT(i.id) FILTER (WHERE i.status = 'overdue') AS overdue_invoice_count
+FROM
+    properties p
+JOIN
+    invoices i ON i.property_id = p.id
+WHERE
+    i.balance > 0 AND i.status != 'cancelled'
+GROUP BY
+    p.id, p.block, p.lot
+HAVING
+    SUM(i.balance) > 0;
+
+-- Grant access to authenticated users (staff via RLS will be handled separately if needed, 
+-- but views usually inherit permissions or need explicit grants if not using SECURITY BARRIER)
+GRANT SELECT ON financial_summary_by_period TO authenticated;
+GRANT SELECT ON revenue_by_fee_type TO authenticated;
+GRANT SELECT ON property_arrears_summary TO authenticated;
